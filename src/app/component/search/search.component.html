@@ -1,0 +1,50 @@
+<div style="position:relative;left:2%; width:98%; top:2%; ">
+
+  <div style="position:relative;display: inline-block;">
+    <button mat-button [routerLink]=" ['/']">Books</button>
+  </div>
+  <div style="position:relative;display: inline-block;">
+    <button mat-button [routerLink]=" ['/authors']">Authors</button>
+  </div>
+
+  <div style="position: relative; display: inline-block; margin-left:30%;width:20%;">
+    <form class="example-form">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Search</mat-label>
+        <input type="text"
+               placeholder="Write"
+               aria-label="Search"
+               matInput
+               [formControl]="myControl"
+               [matAutocomplete]="auto">
+
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+
+          <h5>Book name</h5>
+          <mat-option *ngFor="let option of filteredOptions  | async  index as i " [value]="option">
+            <div [routerLink]="['/book', BookListId[i]]"> {{option}}</div>
+          </mat-option>
+
+          <mat-divider></mat-divider>
+          <h5>Genre</h5>
+          <mat-option *ngFor="let option of filteredOptionsGenre | async" [value]="option">
+            <div [routerLink]="['/genre', option]">{{option}}</div>
+          </mat-option>
+
+          <mat-divider></mat-divider>
+          <h5>Author</h5>
+          <mat-option *ngFor="let option of filteredOptionsAuthor | async  index as i" [value]="option">
+            <div [routerLink]="['/author', AuthorListId[i]]" > {{option}}</div>
+<!--            <div (click)="routAuthor(AuthorListId[i])" >{{option}}</div>-->
+          </mat-option>
+
+
+        </mat-autocomplete>
+
+
+      </mat-form-field>
+    </form>
+
+  </div>
+</div>
+

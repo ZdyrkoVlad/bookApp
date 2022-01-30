@@ -1,0 +1,32 @@
+
+<mat-card class="example-card" style="left:30%;width:40%; top:2%">
+  <mat-card-header>
+<!--    <div mat-card-avatar class="example-header-image"></div>-->
+    <mat-card-title>{{author.fullName }}</mat-card-title>
+<!--    <mat-card-subtitle>Dog Breed</mat-card-subtitle>-->
+  </mat-card-header>
+<!--  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+  <mat-card-content>
+    <p>Биография</p>
+    <p>
+        {{author.biography}}
+    </p>
+
+    <mat-list role="list">
+      <mat-list-item role="listitem">Список книг</mat-list-item>
+      <div *ngFor="let book of bookList ">
+        <mat-list-item role="listitem" [routerLink]=" ['/book', book.id]" style="cursor: pointer">{{book.name}}</mat-list-item>
+      </div>
+<!--    -->
+<!--      <mat-list-item role="listitem">Item 2</mat-list-item>-->
+<!--      <mat-list-item role="listitem">Item 3</mat-list-item>-->
+    </mat-list>
+
+  </mat-card-content>
+<!--  <mat-card-actions>-->
+
+<!--    <button mat-raised-button>LIKE</button>-->
+<!--    <button mat-raised-button>SHARE</button>-->
+
+<!--  </mat-card-actions>-->
+</mat-card>

@@ -1,0 +1,16 @@
+<div style="position:relative; width:60%; left:20%; top:2%" *ngFor="let book of books">
+
+  <mat-card style="margin-top:10px">
+    <!--    <img mat-card-image src="https://s1.livelib.ru/boocover/1006116241/o/b180/Brandon_Sanderson__Cytonic.jpeg" alt="Photo of a Shiba Inu" >-->
+
+    <label for="bookName" style="color: gray">Book name</label>
+    <p id="bookName" [routerLink]="['/book', book.id]" style="cursor: pointer"> {{book.name}}</p>
+
+    <label for="bookAuthors" style="color: gray">Book author</label>
+    <span  id="bookAuthors" *ngFor="let autor of book.authorsId" style="" [routerLink]="['/author', autor]"  style="cursor: pointer;">
+
+      <button mat-button>{{this.getAuthorByID(autor).fullName}}</button>
+    </span>
+
+  </mat-card>
+</div>

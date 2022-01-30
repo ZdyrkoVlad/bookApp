@@ -1,0 +1,26 @@
+<!--<p>book-list works!</p>-->
+<div style="position:relative; width:60%; left:20%; top:2%;margin-top:10px" *ngFor="let author of authorList">
+
+
+  <mat-accordion style="margin-top:10px">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{author.fullName}}
+        </mat-panel-title>
+        <mat-panel-description>
+          Book of this author
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <button [routerLink]=" ['/author', author.id]" mat-button color="primary">{{author.fullName}} перейти</button>
+
+      <div *ngFor="let book of author.bookListId" style="" style="cursor: pointer;">
+
+        <button mat-button [routerLink]=" ['/book', book ]">{{this.getBookById(book)?.name}}</button>
+
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+</div>

@@ -1,0 +1,32 @@
+<mat-card class="example-card" style="left:30%;width:40%; top:2%">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{(book$ | async)?.name}}</mat-card-title>
+    <mat-card-subtitle>{{(book$ | async)?.genre}}</mat-card-subtitle>
+  </mat-card-header>
+  <!--  <img mat-card-image src="https://s1.livelib.ru/boocover/1006116241/o/b180/Brandon_Sanderson__Cytonic.jpeg" alt="Photo of a Shiba Inu">-->
+  <mat-card-content>
+    <p>
+      {{(book$ | async)?.shortContext }}
+    </p>
+  </mat-card-content>
+
+  <mat-list role="list">
+    <mat-list-item role="listitem">Авторы</mat-list-item>
+    <div *ngFor="let author of authorsList$ | async">
+      <mat-list-item role="listitem" [routerLink]=" ['/author', author.id]"
+                     style="cursor: pointer">{{author.fullName}}</mat-list-item>
+    </div>
+
+
+    <!--    -->
+    <!--      <mat-list-item role="listitem">Item 2</mat-list-item>-->
+    <!--      <mat-list-item role="listitem">Item 3</mat-list-item>-->
+  </mat-list>
+  <!--  <mat-card-actions>-->
+
+  <!--    <button mat-raised-button>LIKE</button>-->
+  <!--    <button mat-raised-button>SHARE</button>-->
+
+  <!--  </mat-card-actions>-->
+</mat-card>

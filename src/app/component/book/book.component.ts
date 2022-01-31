@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Book} from '../../dao/book';
 import {DataService} from '../../service/data.service';
 import {Authors} from '../../dao/authors';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 @Component({
@@ -19,6 +19,8 @@ export class BookComponent implements OnInit {
 
   book$: Observable<Book>;
   authorsList$: Observable<Authors[]>;
+
+
 
   constructor(private activateRoute: ActivatedRoute,
               private dataService: DataService) {
@@ -38,6 +40,7 @@ export class BookComponent implements OnInit {
     // this.book = await this.dataService.getBookByID$(this.id);
 
   }
+
 
   ngOnInit(): void {
     console.log('this.id ng on init', this.id);

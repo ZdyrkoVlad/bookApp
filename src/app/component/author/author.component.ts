@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Authors} from '../../dao/authors';
 import {DataService} from '../../service/data.service';
 import {Book} from '../../dao/book';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 
 
 @Component({
@@ -11,11 +11,14 @@ import {Observable} from 'rxjs';
   templateUrl: './author.component.html',
   styleUrls: ['./author.component.css']
 })
-export class AuthorComponent implements OnInit {
+export class AuthorComponent implements OnInit, OnDestroy {
   id: string;
   author$: Observable<Authors>;
   bookList: Book[] = [];
   author: any = '';
+
+  sub1: Subscription;
+  sub2: Subscription;
 
   constructor(private activateRoute: ActivatedRoute,
               private dataService: DataService,
@@ -29,10 +32,10 @@ export class AuthorComponent implements OnInit {
     );
 
 
-    this.dataService.getAuthorByID$(this.id).subscribe(
+    this.sub1 = this.dataService.getAuthorByID$(this.id).subscribe(
       data => {
         this.author = data;
-        this.dataService.getBooksByID$(this.author.bookListId).subscribe(
+        this.sub2 = this.dataService.getBooksByID$(this.author.bookListId).subscribe(
           dataBook => {
             this.bookList = dataBook;
           }
@@ -49,6 +52,11 @@ export class AuthorComponent implements OnInit {
     //   }
     // );
 
+  }
+
+  ngOnDestroy() {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
   }
 
   ngOnInit(): void {

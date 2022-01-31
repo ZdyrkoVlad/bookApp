@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Observable, interval} from 'rxjs';
+import {Observable, interval, Subscription} from 'rxjs';
 import {map, startWith, take} from 'rxjs/operators';
 import {DataService} from '../../service/data.service';
 import {Router} from '@angular/router';
@@ -10,14 +10,17 @@ import {Router} from '@angular/router';
   templateUrl: './test.component.html',
   styleUrls: ['./test.component.css']
 })
-export class TestComponent implements OnInit {
+
+
+export class TestComponent implements OnInit, OnDestroy {
   myControl = new FormControl();
   options: string[] = [];
   filteredOptions: Observable<string[]>;
+  sub1: Subscription;
 
   constructor(private dataSevice: DataService, private router: Router) {
 
-    this.dataSevice.BookList.pipe(
+    this.sub1 = this.dataSevice.BookList.pipe(
       take(1)
     ).subscribe(
       puls => {
@@ -36,6 +39,10 @@ export class TestComponent implements OnInit {
   ngOnInit() {
 
 
+  }
+
+  ngOnDestroy() {
+    this.sub1.unsubscribe();
   }
 
   private _filter(value: string): string[] {

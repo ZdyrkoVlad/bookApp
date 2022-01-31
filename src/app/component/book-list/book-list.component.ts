@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataService} from '../../service/data.service';
 import {Book} from '../../dao/book';
 import {Authors} from '../../dao/authors';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {BehaviorSubject, Observable, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 
 @Component({
@@ -10,25 +10,33 @@ import {map} from 'rxjs/operators';
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.css']
 })
-export class BookListComponent implements OnInit {
+export class BookListComponent implements OnInit, OnDestroy {
 
   bookList: Book[];
   AuthorList: Authors[] = [];
+
+  sub1: Subscription;
+  sub2: Subscription;
 
   // authorsList$ = new BehaviorSubject(this.dataService.AthorsList);
 
 
   constructor(public dataService: DataService) {
 
-    this.dataService.AthorsList.subscribe(
+    this.sub1 = this.dataService.AthorsList.subscribe(
       data => {
         this.AuthorList = data;
-        this.dataService.BookList.subscribe(dataBook => {
+        this.sub2 = this.dataService.BookList.subscribe(dataBook => {
           this.bookList = dataBook;
         });
       }
     );
 
+  }
+
+  ngOnDestroy() {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -41,7 +49,7 @@ export class BookListComponent implements OnInit {
 
   getAuthorByID(id: string): string {
 
-    const author: Authors = this.AuthorList.find(element => element.id ===  id);
+    const author: Authors = this.AuthorList.find(element => element.id === id);
 
     return author.fullName;
 

@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {startWith, map, take} from 'rxjs/operators';
 import {Book} from '../../dao/book';
 import {DataService} from '../../service/data.service';
@@ -16,7 +16,7 @@ export interface User {
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
 
   myControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
@@ -33,6 +33,10 @@ export class SearchComponent implements OnInit {
 
   AuthorList: string[] = [];
   AuthorListId: string[] = [];
+
+
+  sub1: Subscription;
+  sub2: Subscription;
 
   constructor(private dataService: DataService, private router: Router) {
 
@@ -53,7 +57,8 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataService.AthorsList.pipe(
+
+    this.sub1 = this.dataService.AthorsList.pipe(
       take(1)
     ).subscribe(data => {
 
@@ -73,7 +78,7 @@ export class SearchComponent implements OnInit {
 
     });
 
-    this.dataService.BookList.pipe(
+    this.sub2 = this.dataService.BookList.pipe(
       take(1)
     ).subscribe(
       data => {
@@ -107,8 +112,11 @@ export class SearchComponent implements OnInit {
     );
 
 
+  }
 
-
+  ngOnDestroy() {
+    this.sub1.unsubscribe();
+    this.sub2.unsubscribe();
   }
 
   private _filter(value: string): string[] {
